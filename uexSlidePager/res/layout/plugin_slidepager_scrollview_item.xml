@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:paddingLeft="3dp"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:background="@drawable/plugin_slidepager_icon_bg"
+        android:id="@+id/plugin_slidepager_scrollview_item_icon"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart"
+        android:src="@drawable/browser_right_hover"
+        />
+</LinearLayout>

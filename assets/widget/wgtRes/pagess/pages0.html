@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport"content="target-densitydpi=device-dpi,width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="../css/ui-base.css">
+ 		<link rel="stylesheet" href="../css/ui-box.css">
+		<link rel="stylesheet" href="../css/ui-color-v3.css">
+		<link rel="stylesheet" href="../css/new.css">
+		<link rel="stylesheet" href="../css/pag.css">
+		<link rel="stylesheet" href="../css/new_file.css">
+		<title>page01</title>	
+		<script src="../js/main.js"></script>
+		<script src="../js/zy_click.js"></script>
+		<script src="../js/zy_control.js"></script>  
+		<script src="../js/zy_json.js"></script>
+		<script src="../js/zy_icache.js"></script>	
+<script>
+var id = 1001; 
+window.uexOnload = function(){
+     uexButton.onClick = function(data){   
+            uexButton.close(id);         
+            uexWindow.close(-1);
+        }
+      createButton();
+    uexWindow.onKeyPressed=function(k){
+            if(k==0){  
+                uexButton.close(id);            
+                uexWindow.close(-1);
+            }
+        }
+         //监听物理返回键
+        uexWindow.setReportKey(0, 1);
+       
+}
+function createButton(){ 
+    var id = 1001;   
+    var s=window.getComputedStyle($$('fonts'),null);  
+    var em = parseInt(s.fontSize);
+        var x = em;
+        var y = em;
+        var width = parseInt(em*2);
+        var jsonData = '{"title":"","textSize":"0","titleColor":"#ffffff","bgImage":"res://img/left.png"}';
+        uexButton.open(id,x,y,width,width,jsonData);
+    }
+</script>
+	</head>
+	  <body class="um-vp c-wh" ontouchstart>
+        <div id="page_0" class="up ub ub-ver pd">
+            <!--header开始-->
+			<div id="head" class="pd"></div>
+            <div class=" t-wh ub-img ub ub-ver ">
+			<div style="position:relative;">
+                  <img id="head_img1" class="contwh ub ub-img" src="../img/0.png"/>
+				  <!--img src="../img/left.png" class="ub-img leftwh pos head-p2"  onclick="winClose();"/-->
+			</div>
+			</div>
+            <!--header结束--><!--content开始-->
+            <div id="content" class="ub ub-ver cont_padding ub bszb" style="padding:2em 1.25em;">
+                <div class="ub ub-ver">
+                    <div id="case01">
+                        <div id="cont_head" class="bgcase">
+                        <div class="ufl" style="height:3.5625em;line-height:3.5625em">
+                            <div id="cont_Img" class="ufl umar-r">
+                                <img style="height:3.5625em;width:3.5625em; background-position:center;"src="../img/icon0.png"/>
+                            </div>
+                            <div class="ufl fz24" id="fonts">
+                                                                                               移动机务
+                            </div>
+                            <div class="clear">
+                            </div>
+                        </div>
+                     <!--<div class="type ufr">
+                            <div>
+                                <span>行业：</span>
+                                <span>电力行业</span>
+                            </div>
+                            <div>
+                                <span>类别：</span>
+                                <span>企业员工使用</span>
+                            </div>
+                        </div>-->
+                        <div class="clear">
+                        </div>
+                        </div>
+                        <div id="cont_cont" style="margin-top: 1.875em;">
+						<div class="font5">
+                        <p>
+                            <strong>应用名称</strong>
+                            <br>
+                           移动机务
+                            <br>
+                            <br>
+                            <strong>功能介绍</strong>
+                            <br>
+东航移动机务面向航空领域内部员工，为空乘人员提供航班动态、旅客详情、航班详情等信息，为机务人员更好完成航班服务工作提供了有效支撑。
+                            <br>
+                            <br>
+                            <div>
+                                <table class="zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                序号
+                                            </th>
+                                            <th>
+                                                功能模块
+                                            </th>
+                                            <th>
+                                                描述
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>
+                                            飞机信息
+                                        </td>
+                                        <td>
+                                            查看飞机基本信息、生产任务、故障监控、故障保留等信息；
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+                                            航班动态
+                                        </td>
+                                        <td>
+                                            按照航班号、起降地点进行查看航班动态；
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3
+                                        </td>
+                                        <td>
+                                            旅客详情
+                                        </td>
+                                        <td>
+                                            按照会员、舱位等级等对旅客分类分布情况汇总;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4
+                                        </td>
+                                        <td>
+                                            航班详情
+                                        </td>
+                                        <td>
+                                            查看航班预计飞行时间、实际飞行情况旅客乘坐情况机组人员等信息；
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+							<br/>
+							<br/>
+                            <strong>应用界面</strong>
+                        </p>
+                        <p>
+                            <strong>
+                                <br>
+                            </strong>
+                        </p>
+                        <p>
+                            	<div class="ub ub-pc ub-ac">
+                            	   <img src="../imgs/icon1_1.jpg" class="contwh ub ub-img" />
+								</div>
+                                <br/>
+							 	<div class="ub ub-pc ub-ac">
+							 	  <img src="../imgs/icon1_2.jpg" class="contwh ub ub-img"/>
+								</div>
+                                <br/>
+							 	<div class="ub ub-pc ub-ac">
+								   <img src="../imgs/icon1_3.jpg" class="contwh ub ub-img"/>
+                                </div>
+								<br/>
+								<div class="ub ub-pc ub-ac">
+                            	   <img src="../imgs/icon1_4.jpg" class="contwh ub ub-img" />
+								</div>
+                                <br/>
+							 	<div class="ub ub-pc ub-ac">
+							 	  <img src="../imgs/icon1_5.jpg" class="contwh ub ub-img"/>
+								</div>
+                                <br/>
+                        </p>
+						<br/><br/>
+					    <p>
+					    	  <strong>插件引用</strong>
+							 <br/>
+                             <div>
+                                 <br/>
+                                 <div class="ub">
+                                     <div class="ub ub-f1 ub-ver ">
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexInfoCenter</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexRecorderDH</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexNetworkStatusProvider</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexFileLoadMgrEX</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexFileBrowser</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexActionSheet</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexPicker</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexDHCity</a>
+                                         </div>
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexAlertEx</a>
+                                         </div>
+										<div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexDeviceIOS</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexDocumentReader</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexZip</a>
+                                         </div>                
+                                     </div>
+                                     <div class="ub ub-f1 ub-ver">
+                                         <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexXmlHttpMgr</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexVideo</a>
+                                         </div>                                         
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexUploaderMgr</a>
+                                         </div>                                         
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexFileMgr</a>
+                                         </div>                                        
+										  <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexLog</a>
+                                         </div>                                         
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexImageBrowser</a>
+                                         </div>                                         
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexDownloaderMgr</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexDevice</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexControl</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexContact</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexCamera</a>
+                                         </div>
+										 <div class="btnpos btncor1  uinnself uba uc-a ub ub-pc ub-ac c-m1"  >
+                                             <a href="#" class="asty">uexCall</a>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                            <br/>
+					    </p>
+                        </div>
+						</div>
+                    </div>
+                </div>
+            </div>
+			</div>
+            <!--content结束-->
+			<!--footer-->
+			<!--<div id="footer" class="foot-bg foot-wh">
+				<div class="ub ub-ac ub-pc foot-wh-cor mar1 uc-la" onClick="xinShar(1)" >
+					<div class="ub bgimg ub-img img-wh"></div>
+					<div class="ub ub-ac mar2 fontcor t-wh">分享到朋友圈</div>
+					 <div class="tcxx" id="showStatus"></div><br>
+				</div>
+			</div>-->
+    </body>
+</html>

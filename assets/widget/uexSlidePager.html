@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport"content="target-densitydpi=device-dpi,width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="wgtRes/css/index.css">
+        <link rel="stylesheet" href="wgtRes/css/ui-base.css">
+        <link rel="stylesheet" href="wgtRes/css/ui-box.css">
+        <link rel="stylesheet" href="wgtRes/css/ui-color-v3.css">
+        <link rel="stylesheet" href="wgtRes/css/new.css">
+        <link rel="stylesheet" href="wgtRes/css/pag.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <title>uexSlidePager</title>
+        <script src="wgtRes/js/main.js"></script>
+        <script src="wgtRes/js/zy_control.js"></script>
+        <script src="wgtRes/js/zy_icache.js"></script>
+        <script src="wgtRes/js/zy_click.js"></script>
+        <script src="wgtRes/js/zy_json.js"></script>
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+        <script type="text/javascript">
+            function openSlideWindow() {
+                var topMargin = document.getElementById("title").offsetHeight;
+                var contentArray = ["res://pages/page1.html", "res://pages/page2.html", "res://pages/page3.html", "res://pages/page4.html", "res://pages/page5.html", "res://pages/page6.html", "res://pages/page7.html"];
+                var iconArray = ["res://img/icon0.png", "res://img/icon1.png", "res://img/icon2.png", "res://img/icon3.png", "res://img/icon5.png", "res://img/icon7.png", "res://img/icon9.png"];
+                var colorArray = ["#004aa5", "#c8c8c8", "#007473", "#0c4d90", "#329cc3", "#7098d4", "#0484cd"];
+                uexSlidePager.openSlidePager(topMargin, contentArray, iconArray, colorArray);
+            }
+
+            function onPageClick(index) {
+                openNewWin(index, "wgtRes/pagess/pages" + index + ".html");
+            }
+
+            function onChangeColor(color) {
+                setLocVal("color", color);
+                document.getElementById('title').style.backgroundColor = color;
+            }
+
+
+            window.uexOnload = function() {
+                openSlideWindow();
+                uexSlidePager.onPageClick = onPageClick;
+                uexSlidePager.onChangeColor = onChangeColor;
+            }
+        </script>
+    </head>
+    <body ontouchstart>
+        <div id="title" class="tit ub ub-pc ub-ac c-pa ub-img mar head-p1">
+            <div class="nav-btn">
+                <div class="uinn b-gra"  style="background: rgba(255,255,255,.3);-webkit-border-radius: 1.5em;border-radius: 1.5em;margin-left:0.5em;" >
+                    <div class="icon-back ub-img4" style="width: 1.4em;height: 1.4em;"></div>
+                </div>
+            </div>
+            <div  class="ub ub-f1 ub-ac font3 pad1 ub-ac ub-pc">
+                案例锦集
+            </div>
+            <div class="ub ub-ac umw4 ub-pc" ontouchstart="zy_touch('btn-act')" onclick="uexSlidePager.setCurrentPage(0);">
+                <img src="wgtRes/img/return.png" class="marl ub ub-pc  rewh ub-img uinn3"/>
+            </div>
+        </div>
+    </body>
+    <script>
+        appcan.button(".nav-btn", "btn-act", function() {
+            //closeSlide();
+        })
+    </script>
+</html>

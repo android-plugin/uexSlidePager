@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/plugin_slidepager_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:orientation="vertical"
+    tools:context=".PluginSliderActivity" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/plugin_slidepager_viewpager"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+         />
+   <org.zywx.wbpalmstar.plugin.uexslidepager.ScrollViewLayout
+       android:id="@+id/plugin_slidepager_scrollview"
+       android:layout_gravity="bottom"
+       android:fadingEdge="none"
+       android:paddingRight="3dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:scrollbars="none">
+       
+   </org.zywx.wbpalmstar.plugin.uexslidepager.ScrollViewLayout>
+</LinearLayout>

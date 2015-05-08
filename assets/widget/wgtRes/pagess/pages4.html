@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport"content="target-densitydpi=device-dpi,width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../css/ui-base.css">
+        <link rel="stylesheet" href="../css/ui-box.css">
+        <link rel="stylesheet" href="../css/ui-color-v3.css">
+        <link rel="stylesheet" href="../css/new.css">
+        <link rel="stylesheet" href="../css/pag.css">
+        <link rel="stylesheet" href="../css/new_file.css">
+        <title>page01</title>
+        <script src="../js/main.js"></script>
+        <script src="../js/zy_click.js"></script>
+        <script src="../js/zy_control.js"></script>
+        <script src="../js/zy_json.js"></script>
+        <script src="../js/zy_icache.js"></script>
+        <script type="text/javascript">
+            var id = 1001;
+            window.uexOnload = function() {
+                uexButton.onClick = function(data) {
+                    uexButton.close(id);
+                    uexWindow.close(-1);
+                }
+                createButton();
+                uexWindow.onKeyPressed = function(k) {
+                    if (k == 0) {
+                        uexWindow.close(-1);
+                        var id = 1001;
+                        uexButton.close(id);
+                    }
+                }
+                //监听物理返回键
+                uexWindow.setReportKey(0, 1);
+
+            }
+            function createButton() {
+                var id = 1001;
+                var s = window.getComputedStyle($$('fonts'), null);
+                var em = parseInt(s.fontSize);
+                var x = em;
+                var y = em;
+                var width = parseInt(em * 2);
+                var jsonData = '{"title":"","textSize":"0","titleColor":"#ffffff","bgImage":"res://img/left.png"}';
+                uexButton.open(id, x, y, width, width, jsonData);
+            }
+        </script>
+    </head>
+    <body class="um-vp c-wh" ontouchstart>
+        <div id="page_0" class="up ub ub-ver pd">
+            <!--header开始-->
+            <div id="head" class="pd"></div>
+            <div class=" t-wh ub-img ub ub-ver">
+                <div style="position:relative;">
+                    <img id="head_img1" class="contwh ub ub-img" src="../img/5.png"/>
+                    <!--img src="../img/left.png" class="ub-img leftwh pos head-p2" ontouchstart="zy_touch('btn-act')" onclick="winClose();"/-->
+                </div>
+            </div>
+            <!--header结束--><!--content开始-->
+            <div id="content" class="ub ub-ver cont_padding ub bszb" style="padding:2em 1.25em;">
+                <div class="ub ub-ver">
+                    <div id="case01">
+                        <div id="cont_head" class="bgcase">
+                            <div class="ufl" style="height:3.5625em;line-height:3.5625em">
+                                <div id="cont_Img" class="ufl umar-r">
+                                    <img style="height:3.5625em;width:3.5625em; background-position:center;"src="../img/icon5.png"/>
+                                </div>
+                                <div class="ufl fz24" id="fonts">
+                                    掌上运维
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <!--<div class="type ufr">
+                            <div>
+                            <span>行业：</span>
+                            <span>电力行业</span>
+                            </div>
+                            <div>
+                            <span>类别：</span>
+                            <span>企业员工使用</span>
+                            </div>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+                        <div id="cont_cont" style="margin-top: 1.875em;">
+                            <div class="font5">
+                                <p>
+                                    <strong>应用名称</strong>
+                                    <br>
+                                    掌上运维
+                                    <br>
+                                    <br>
+                                    <strong>功能介绍</strong>
+                                    <br>
+                                    广东移动掌上运维app对接到移动原有账号平台，实现单点登录、个人应用管理容器、企业应用商店、内部公告等功能模块；不仅解决了原有移动应用技术不同、独立开发、独立接入且接入方式各异，管控分散，缺乏统一的规划和支撑的种种弊端，同时大大降低了网络安全和信息泄露的风险。
+                                    <br>
+                                    <br>
+                                    <div>
+                                        <table class="zebra">
+                                            <thead>
+                                                <tr>
+                                                    <th> 序号 </th>
+                                                    <th> 功能模块 </th>
+                                                    <th> 描述 </th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <td> &nbsp; </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                            <tr>
+                                                <td> 1 </td>
+                                                <td> 账号认证 </td>
+                                                <td> 对接移动后台账号系统，实现单点登录； </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 2 </td>
+                                                <td> 我的应用 </td>
+                                                <td> 下载、安装、删除我的应用； </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 3 </td>
+                                                <td> 应用商店 </td>
+                                                <td> 精品、排行、分类最新应用； </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 4 </td>
+                                                <td> 应用管理 </td>
+                                                <td> 管理员可以对应用进行上架、下架操作； </td>
+                                            </tr>
+                                            <tr>
+                                                <td> 5 </td>
+                                                <td> 平台公告 </td>
+                                                <td> 公告展示、历史公告； </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <strong>应用界面</strong>
+                                </p>
+                                <p>
+                                    <strong>
+                                    <br>
+                                    </strong>
+                                </p>
+                                <p>
+                                    <div class="ub ub-pc ub-ac">
+                                        <img src="../imgs/icon6_1.png" class="contwh ub ub-img" />
+                                    </div>
+                                    <br/>
+                                    <div class="ub ub-pc ub-ac">
+                                        <img src="../imgs/icon6_2.png" class="contwh ub ub-img"/>
+                                    </div>
+                                    <br/>
+                                    <div class="ub ub-pc ub-ac">
+                                        <img src="../imgs/icon6_3.png" class="contwh ub ub-img"/>
+                                    </div>
+                                    <br/>
+                                </p>
+                                <br/>
+                                <br/>
+                                <p>
+                                    <strong>插件引用</strong>
+                                    <br/>
+                                    <div>
+                                        <br/>
+                                        <div class="ub">
+                                            <div class="ub ub-f1 ub-ver ">
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexPicker</a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexAppCenterMgrEx2</a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexDevice</a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexFileMgr </a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexLog</a>
+                                                </div>
+                                            </div>
+                                            <div class="ub ub-f1 ub-ver">
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexImageBrowser</a>
+                                                </div>
+                                                <div class="btnpos btncor6 uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexFileMgr </a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexDownloaderMgr </a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexDevice </a>
+                                                </div>
+                                                <div class="btnpos btncor6  uinnself uba uc-a ub ub-pc ub-ac c-m1" >
+                                                    <a href="#" class="asty">uexCamera</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--content结束-->
+        <!--footer-->
+        <!--<div id="footer" class="foot-bg foot-wh">
+        <div class="ub ub-ac ub-pc foot-wh-cor mar1 uc-la" onClick="xinShar(1)" ontouchstart="zy_touch('btn-act')">
+        <div class="ub bgimg ub-img img-wh"></div>
+        <div class="ub ub-ac mar2 fontcor t-wh">分享到朋友圈</div>
+        <div class="tcxx" id="showStatus"></div><br>
+        </div>
+        </div>-->
+
+    </body>
+</html>
