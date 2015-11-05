@@ -14,9 +14,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import org.zywx.wbpalmstar.base.view.BaseFragment;
 
-public class SlidePagerActivity extends FragmentActivity 
+public class SlidePagerFragment extends BaseFragment
         implements OnPageChangeListener{
     private static final String TAG = "PluginSliderActivity";
     public static int ITEMS_DISPLAY_NUM = 7;
@@ -26,7 +30,7 @@ public class SlidePagerActivity extends FragmentActivity
     private ScrollViewLayout mScView;
     private ViewPager mViewPager;
     private LinearLayout mMainLinearlayout;
-    private String[] data;
+    private String[] mData;
     private static EBrowserView mEBrw;
     private int mScViewItemWidth;
     private int mScViewHeight;
@@ -36,19 +40,34 @@ public class SlidePagerActivity extends FragmentActivity
     public static final int SCROLL_VIEW_SLIDE_DURATION = 300;
     public static final int SCROLL_VIEW_ITEM_HEIGHT_DURATION = 350;
     private static boolean isEncrypt = false;
+    private FragmentActivity mFragmentActivity;
     
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(EUExUtil.getResLayoutID("plugin_slidepager_activity_main"));
-        
-        mMainLinearlayout = (LinearLayout)findViewById(EUExUtil.getResIdID("plugin_slidepager_main"));
+    }
+
+    public void setFragmentActivity(FragmentActivity activity){
+        mFragmentActivity = activity;
+    }
+
+    public void setBaseData(String[] data){
+        mData = data;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(EUExUtil.getResLayoutID("plugin_slidepager_activity_main"),
+                container, false);
+
+        mMainLinearlayout = (LinearLayout)view.findViewById(EUExUtil.getResIdID("plugin_slidepager_main"));
         initData();
 
-        mScView = (ScrollViewLayout) findViewById(EUExUtil.getResIdID("plugin_slidepager_scrollview"));
+        mScView = (ScrollViewLayout) view.findViewById(EUExUtil.getResIdID("plugin_slidepager_scrollview"));
         mScView.getLayoutParams().height = mScViewHeight;
         mScView.setScViewItemWidth(mScViewItemWidth, mScViewHeight);
-        mScrollViewAdapter = new ScrollViewAdapter(getApplicationContext(), mList, mScViewHeight);
+        mScrollViewAdapter = new ScrollViewAdapter(this.getActivity().getApplicationContext(),
+                mList, mScViewHeight);
         mScView.setOnScViewSelectedListener(new OnScViewSelectedListener(){
 
             @Override
@@ -59,22 +78,24 @@ public class SlidePagerActivity extends FragmentActivity
         mScView.setScrollScStartDelayTime(VIEW_PAGER_CHANGE_DURATION,
                 SCROLL_VIEW_SLIDE_DURATION, SCROLL_VIEW_ITEM_HEIGHT_DURATION);
         mScView.setAdapter(mScrollViewAdapter);
-        mViewPager = (ViewPager) findViewById(EUExUtil.getResIdID("plugin_slidepager_viewpager"));
+        mViewPager = (ViewPager) view.findViewById(EUExUtil
+                .getResIdID("plugin_slidepager_viewpager"));
         mViewPager.setOffscreenPageLimit(mList.size());
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mList, isEncrypt);
+        mViewPagerAdapter = new ViewPagerAdapter(mFragmentActivity.getSupportFragmentManager(),
+                mList, isEncrypt);
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
         onAppPagerChange(0);
+        return view;
     }
-    
+
     private void initData() {
-        data = this.getIntent().getStringArrayExtra("data");
-        if(data == null){
+        if(mData == null){
             return;
         }
-        String content = data[1];
-        String icon = data[2];
-        String color = data[3];
+        String content = mData[1];
+        String icon = mData[2];
+        String color = mData[3];
         String[] contentArray = content.split(",");
         String[] iconArray = icon.split(",");
         String[] colorArray = color.split(",");
@@ -139,7 +160,7 @@ public class SlidePagerActivity extends FragmentActivity
     private DisplayMetrics getScreenDisplayMetrics()
     {
       DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-      getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
+      this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(localDisplayMetrics);
       return localDisplayMetrics;
     }
     

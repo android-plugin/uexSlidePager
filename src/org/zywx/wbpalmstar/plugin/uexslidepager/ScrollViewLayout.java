@@ -3,7 +3,7 @@ package org.zywx.wbpalmstar.plugin.uexslidepager;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.zywx.wbpalmstar.plugin.uexslidepager.SlidePagerActivity.OnScViewSelectedListener;
+import org.zywx.wbpalmstar.plugin.uexslidepager.SlidePagerFragment.OnScViewSelectedListener;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

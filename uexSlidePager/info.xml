@@ -1,21 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexSlidePager" version="3.0.14" build="14">
-                <info>14:修改jar文件</info>
-                <build>13:修改解密路径</build>
-		<build>12:修改用新引擎打包闪退问题</build>
-		<build>11:修改插件包中的plugin.xml文件</build>
-		<build>10:修复加载加密网页乱码的问题</build>
-		<build>9:修改dimens.xml文件中标签name值</build>
-		<build>8:修复removeView之前窗口已关闭的问题</build>
-		<build>7:实现插件中的clean方法销毁activity</build>
-		<build>6:实现插件中的clean方法销毁activity</build>
-		<build>5:添加webview弹出alert框功能</build>
-		<build>4:修复webview不支持本地缓存的问题</build>
-		<build>3:修复部分机型webview不透明的问题</build>
-		<build>2:修改webview的背景为透明</build>
-		<build>1:增加setCurrentPage接口以及点击item的回调方法onPageClick</build>
-		<build>0:uexSlidePager滑动切换插件</build>
+        uexName="uexSlidePager" version="3.0.15" build="15">
+        <info>15:去掉插件中的ActivityGroup,配合引擎升级</info>
+        <build>14:修改jar文件</build>
+        <build>13:修改解密路径</build>
+        <build>12:修改用新引擎打包闪退问题</build>
+        <build>11:修改插件包中的plugin.xml文件</build>
+        <build>10:修复加载加密网页乱码的问题</build>
+        <build>9:修改dimens.xml文件中标签name值</build>
+        <build>8:修复removeView之前窗口已关闭的问题</build>
+        <build>7:实现插件中的clean方法销毁activity</build>
+        <build>6:实现插件中的clean方法销毁activity</build>
+        <build>5:添加webview弹出alert框功能</build>
+        <build>4:修复webview不支持本地缓存的问题</build>
+        <build>3:修复部分机型webview不透明的问题</build>
+        <build>2:修改webview的背景为透明</build>
+        <build>1:增加setCurrentPage接口以及点击item的回调方法onPageClick</build>
+        <build>0:uexSlidePager滑动切换插件</build>
     </plugin>
 </uexplugins>
