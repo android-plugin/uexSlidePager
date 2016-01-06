@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexSlidePager" version="3.0.15" build="15">
-        <info>15:去掉插件中的ActivityGroup,配合引擎升级</info>
+        uexName="uexSlidePager" version="3.0.16" build="16">
+        <info>16:打开接口新增配置是否显示底部图标参数</info>
+        <build>15:去掉插件中的ActivityGroup,配合引擎升级</build>
         <build>14:修改jar文件</build>
         <build>13:修改解密路径</build>
         <build>12:修改用新引擎打包闪退问题</build>

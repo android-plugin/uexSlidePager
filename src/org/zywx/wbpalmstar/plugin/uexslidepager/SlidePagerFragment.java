@@ -3,6 +3,7 @@ package org.zywx.wbpalmstar.plugin.uexslidepager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExUtil;
 import org.zywx.wbpalmstar.plugin.uexslidepager.EUExSlidePager.OnChangeColorListener;
@@ -13,12 +14,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import org.zywx.wbpalmstar.base.view.BaseFragment;
+import org.zywx.wbpalmstar.plugin.uexslidepager.vo.OpenOptionVO;
 
 public class SlidePagerFragment extends BaseFragment
         implements OnPageChangeListener{
@@ -41,7 +44,9 @@ public class SlidePagerFragment extends BaseFragment
     public static final int SCROLL_VIEW_ITEM_HEIGHT_DURATION = 350;
     private static boolean isEncrypt = false;
     private FragmentActivity mFragmentActivity;
-    
+    private OnStateChangeListener mStateListener;
+    private boolean isShowIcon = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,35 +68,52 @@ public class SlidePagerFragment extends BaseFragment
         mMainLinearlayout = (LinearLayout)view.findViewById(EUExUtil.getResIdID("plugin_slidepager_main"));
         initData();
 
-        mScView = (ScrollViewLayout) view.findViewById(EUExUtil.getResIdID("plugin_slidepager_scrollview"));
-        mScView.getLayoutParams().height = mScViewHeight;
-        mScView.setScViewItemWidth(mScViewItemWidth, mScViewHeight);
         mScrollViewAdapter = new ScrollViewAdapter(this.getActivity().getApplicationContext(),
                 mList, mScViewHeight);
-        mScView.setOnScViewSelectedListener(new OnScViewSelectedListener(){
-
-            @Override
-            public void onScViewSelected(int index) {
-                mViewPager.setCurrentItem(index);
-            }
-        });
-        mScView.setScrollScStartDelayTime(VIEW_PAGER_CHANGE_DURATION,
-                SCROLL_VIEW_SLIDE_DURATION, SCROLL_VIEW_ITEM_HEIGHT_DURATION);
-        mScView.setAdapter(mScrollViewAdapter);
+        mScView = (ScrollViewLayout) view.findViewById(EUExUtil.getResIdID("plugin_slidepager_scrollview"));
+        if (isShowIcon){
+            mScView.setVisibility(View.VISIBLE);
+            mScView.getLayoutParams().height = mScViewHeight;
+            mScView.setScViewItemWidth(mScViewItemWidth, mScViewHeight);
+            mScView.setOnScViewSelectedListener(new OnScViewSelectedListener() {
+                @Override
+                public void onScViewSelected(int index) {
+                    mViewPager.setCurrentItem(index);
+                }
+            });
+            mScView.setScrollScStartDelayTime(VIEW_PAGER_CHANGE_DURATION,
+                    SCROLL_VIEW_SLIDE_DURATION, SCROLL_VIEW_ITEM_HEIGHT_DURATION);
+            mScView.setAdapter(mScrollViewAdapter);
+        }else{
+            mScView.setVisibility(View.GONE);
+        }
         mViewPager = (ViewPager) view.findViewById(EUExUtil
                 .getResIdID("plugin_slidepager_viewpager"));
         mViewPager.setOffscreenPageLimit(mList.size());
         mViewPagerAdapter = new ViewPagerAdapter(mFragmentActivity.getSupportFragmentManager(),
                 mList, isEncrypt);
+        if (mStateListener != null){
+            mViewPagerAdapter.setListener(mStateListener);
+        }
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
         onAppPagerChange(0);
+        mViewPager.setVisibility(View.VISIBLE);
         return view;
     }
 
     private void initData() {
         if(mData == null){
             return;
+        }
+        if (mData.length > 4){
+            String json = mData[4];
+            if (!TextUtils.isEmpty(json)){
+                OpenOptionVO optionVO = DataHelper.gson.fromJson(json, OpenOptionVO.class);
+                if (optionVO != null){
+                    isShowIcon = optionVO.isShowIcon();
+                }
+            }
         }
         String content = mData[1];
         String icon = mData[2];
@@ -103,7 +125,9 @@ public class SlidePagerFragment extends BaseFragment
         for(int i = 0; i < count; i++){
             AppModel item = new AppModel();
             item.setBgColor(colorArray[i]);
-            item.setIconUrl(iconArray[i]);
+            if (isShowIcon){
+                item.setIconUrl(iconArray[i]);
+            }
             item.setId(i);
             item.setIntroduction(Util.getRealUrlPath(mEBrw, contentArray[i]));
             mList.add(item);
@@ -143,7 +167,7 @@ public class SlidePagerFragment extends BaseFragment
 
     private void onAppPagerChange(int paramInt)
     {
-        mScView.setCurrentScrollViewItem(paramInt);
+        if (isShowIcon) mScView.setCurrentScrollViewItem(paramInt);
         setMainBackgroundColor(paramInt);
     }
     
@@ -153,7 +177,7 @@ public class SlidePagerFragment extends BaseFragment
             return;
         }
         mViewPager.setCurrentItem(paramInt);
-        mScView.setCurrentScrollViewItem(paramInt);
+        if (isShowIcon) mScView.setCurrentScrollViewItem(paramInt);
         setMainBackgroundColor(paramInt);
     }
     
@@ -173,7 +197,7 @@ public class SlidePagerFragment extends BaseFragment
     }
     
     public void setListener(OnStateChangeListener listener){
-        mViewPagerAdapter.setListener(listener);
+        this.mStateListener = listener;
     }
 
     public static void setOnChangeColor(

@@ -24,7 +24,10 @@
                 var contentArray = ["res://pages/page1.html", "res://pages/page2.html", "res://pages/page3.html", "res://pages/page4.html", "res://pages/page5.html", "res://pages/page6.html", "res://pages/page7.html"];
                 var iconArray = ["res://img/icon0.png", "res://img/icon1.png", "res://img/icon2.png", "res://img/icon3.png", "res://img/icon5.png", "res://img/icon7.png", "res://img/icon9.png"];
                 var colorArray = ["#004aa5", "#c8c8c8", "#007473", "#0c4d90", "#329cc3", "#7098d4", "#0484cd"];
-                uexSlidePager.openSlidePager(topMargin, contentArray, iconArray, colorArray);
+                var option = {
+                    isShowIcon:false
+                };
+                uexSlidePager.openSlidePager(topMargin, contentArray, "", colorArray, JSON.stringify(option));
             }
 
             function onPageClick(index) {

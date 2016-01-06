@@ -38,8 +38,8 @@ public class EUExSlidePager extends EUExBase {
     }
 
     private void openSlidePagerMsg(String[] params) {
-        if(params == null || params.length < 2){
-            Log.e(TAG, "openSlidePager needs 3 params!!!");
+        if(params == null || params.length < 3){
+            Log.e(TAG, "openSlidePager needs 4 params!!!");
             return;
         }
         if(isOpen){
