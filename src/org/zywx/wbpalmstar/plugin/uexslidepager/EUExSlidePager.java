@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 public class EUExSlidePager extends EUExBase {
 
     private static final String TAG = "EUExSlidePager";
     public static final String ON_FUNCTION_PAGE_CLICK = "uexSlidePager.onPageClick";
+    public static final String ON_FUNCTION_ICON_CLICK = "uexSlidePager.onIconSelected";
     public static final String ON_FUNCTION_CHANGE_COLOR = "uexSlidePager.onChangeColor";
     private static final String TAG_ACTIVITY = "SlidePagerFragment";
     private static boolean isOpen = false;
@@ -50,8 +52,10 @@ public class EUExSlidePager extends EUExBase {
             if(Integer.parseInt(params[0]) > 0){
                 topMargin = Integer.parseInt(params[0]);
             }
-            final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(-1, -1);
+            final RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
             lp.topMargin = topMargin;
+            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             slidePagerFragment = new SlidePagerFragment();
             slidePagerFragment.setBaseData(params);
             slidePagerFragment.setFragmentActivity((FragmentActivity) mContext);
@@ -75,6 +79,13 @@ public class EUExSlidePager extends EUExBase {
                 public void onPageClicked(long index) {
                     String js = SCRIPT_HEADER + "if(" + ON_FUNCTION_PAGE_CLICK + "){"
                             + ON_FUNCTION_PAGE_CLICK + "('" + index + "');}";
+                    onCallback(js);
+                }
+
+                @Override
+                public void onIconClicked(long index) {
+                    String js = SCRIPT_HEADER + "if(" + ON_FUNCTION_ICON_CLICK + "){"
+                            + ON_FUNCTION_ICON_CLICK + "('" + index + "');}";
                     onCallback(js);
                 }
             });
@@ -130,6 +141,7 @@ public class EUExSlidePager extends EUExBase {
 
     public interface OnStateChangeListener{
         public void onPageClicked(long index);
+        public void onIconClicked(long index);
     }
 
     public interface OnChangeColorListener{

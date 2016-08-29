@@ -20,6 +20,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import org.zywx.wbpalmstar.base.view.BaseFragment;
 import org.zywx.wbpalmstar.plugin.uexslidepager.vo.OpenOptionVO;
 
@@ -32,7 +34,7 @@ public class SlidePagerFragment extends BaseFragment
     private ScrollViewAdapter mScrollViewAdapter;
     private ScrollViewLayout mScView;
     private ViewPager mViewPager;
-    private LinearLayout mMainLinearlayout;
+    private RelativeLayout mMainLinearlayout;
     private String[] mData;
     private static EBrowserView mEBrw;
     private int mScViewItemWidth;
@@ -46,6 +48,7 @@ public class SlidePagerFragment extends BaseFragment
     private FragmentActivity mFragmentActivity;
     private OnStateChangeListener mStateListener;
     private boolean isShowIcon = true;
+    private boolean isShowContent = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class SlidePagerFragment extends BaseFragment
         View view = inflater.inflate(EUExUtil.getResLayoutID("plugin_slidepager_activity_main"),
                 container, false);
 
-        mMainLinearlayout = (LinearLayout)view.findViewById(EUExUtil.getResIdID("plugin_slidepager_main"));
+        mMainLinearlayout = (RelativeLayout)view.findViewById(EUExUtil.getResIdID("plugin_slidepager_main"));
         initData();
 
         mScrollViewAdapter = new ScrollViewAdapter(this.getActivity().getApplicationContext(),
@@ -78,7 +81,13 @@ public class SlidePagerFragment extends BaseFragment
             mScView.setOnScViewSelectedListener(new OnScViewSelectedListener() {
                 @Override
                 public void onScViewSelected(int index) {
+                    if (mStateListener != null){
+                        mStateListener.onIconClicked(index);
+                    }
                     mViewPager.setCurrentItem(index);
+                    if (!isShowContent){
+                        setMainBackgroundColor(index);
+                    }
                 }
             });
             mScView.setScrollScStartDelayTime(VIEW_PAGER_CHANGE_DURATION,
@@ -89,16 +98,20 @@ public class SlidePagerFragment extends BaseFragment
         }
         mViewPager = (ViewPager) view.findViewById(EUExUtil
                 .getResIdID("plugin_slidepager_viewpager"));
-        mViewPager.setOffscreenPageLimit(mList.size());
-        mViewPagerAdapter = new ViewPagerAdapter(mFragmentActivity.getSupportFragmentManager(),
-                mList, isEncrypt);
-        if (mStateListener != null){
-            mViewPagerAdapter.setListener(mStateListener);
+        if (isShowContent){
+            mViewPager.setOffscreenPageLimit(mList.size());
+            mViewPagerAdapter = new ViewPagerAdapter(mFragmentActivity.getSupportFragmentManager(),
+                    mList, isEncrypt);
+            if (mStateListener != null){
+                mViewPagerAdapter.setListener(mStateListener);
+            }
+            mViewPager.setAdapter(mViewPagerAdapter);
+            mViewPager.setOnPageChangeListener(this);
+            mViewPager.setVisibility(View.VISIBLE);
+        }else{
+            mViewPager.setVisibility(View.GONE);
         }
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mViewPager.setOnPageChangeListener(this);
         onAppPagerChange(0);
-        mViewPager.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -112,6 +125,7 @@ public class SlidePagerFragment extends BaseFragment
                 OpenOptionVO optionVO = DataHelper.gson.fromJson(json, OpenOptionVO.class);
                 if (optionVO != null){
                     isShowIcon = optionVO.isShowIcon();
+                    isShowContent = optionVO.isShowContent();
                 }
             }
         }
@@ -121,15 +135,32 @@ public class SlidePagerFragment extends BaseFragment
         String[] contentArray = content.split(",");
         String[] iconArray = icon.split(",");
         String[] colorArray = color.split(",");
-        int count = Math.max(contentArray.length, iconArray.length);
+        int count = 0;
+        if (isShowContent && isShowIcon){
+            count = Math.min(contentArray.length, iconArray.length);
+        }else if (isShowIcon){
+            count = iconArray.length;
+        }else if(isShowContent){
+            count = contentArray.length;
+        }
+        if (count == 0){return;}
         for(int i = 0; i < count; i++){
             AppModel item = new AppModel();
-            item.setBgColor(colorArray[i]);
             if (isShowIcon){
                 item.setIconUrl(iconArray[i]);
             }
+            if(isShowContent){
+                item.setIntroduction(Util.getRealUrlPath(mEBrw, contentArray[i]));
+            }
+            String colorItem;
+            if (colorArray.length - 1 < i){
+                colorItem = colorArray[colorArray.length -1];
+            }else{
+                colorItem = colorArray[i];
+            }
+            item.setBgColor(colorItem);
             item.setId(i);
-            item.setIntroduction(Util.getRealUrlPath(mEBrw, contentArray[i]));
+
             mList.add(item);
         }
         
@@ -178,7 +209,7 @@ public class SlidePagerFragment extends BaseFragment
         }
         mViewPager.setCurrentItem(paramInt);
         if (isShowIcon) mScView.setCurrentScrollViewItem(paramInt);
-        setMainBackgroundColor(paramInt);
+        //setMainBackgroundColor(paramInt);
     }
     
     private DisplayMetrics getScreenDisplayMetrics()
