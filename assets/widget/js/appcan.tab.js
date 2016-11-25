@@ -38,8 +38,9 @@ appcan.define("tab", function($, exports, module) {
                 self.focus = self.focus || $('<div class="focus utra bc-head"></div>');
                 self.focus.css("width", width);
                 self.focus.css("-webkit-transform", "translateX("+index * width+"px)");
-                if (container)
+                if (container){
                     container.append(self.focus);
+                }
             }
         },
         focusText:function(index){

@@ -7,6 +7,16 @@
 
  */
 /*global appcan,window */
+appcan.use("detect", function($, detect) {
+    if (detect.os.ios) {
+        var viewport = document.getElementsByName("viewport");
+        var scale = window.devicePixelRatio ? (1 / window.devicePixelRatio) : 1;
+        $("[name='viewport']").attr("content", "width=device-width,target-densitydpi=device-dpi,initial-scale=" + scale + ", minimum-scale=" + scale + ", maximum-scale=" + scale);
+        var fontsize = $("body").css("font-size");
+        $("body").css("font-size", parseInt(fontsize) * window.devicePixelRatio + "px");
+    }
+})
+
 appcan.extend(function(app, exports, module) {
     var $ = appcan.require('dom');
     var appWin = appcan.require('window');
@@ -20,6 +30,7 @@ appcan.extend(function(app, exports, module) {
      *
      */
     function isWindows() {
+        if(window.navigator.platform == "Win32") return true;
         if (!('ontouchstart' in window))
             return true;
     }
@@ -31,9 +42,13 @@ appcan.extend(function(app, exports, module) {
     }
 
     function updateSwitch(obj) {
-        var value = obj.attr("data-checked") || false;
-        obj.attr("data-checked", !value);
-        !value ? obj.addClass("switch-active") : obj.removeClass("switch-active");
+        var value = obj.attr("data-checked") || 'false';
+        value = (value == 'false' ? 'true' : 'false');
+        obj.attr("data-checked", value);
+        value == 'false' ? obj.addClass("switch-active") : obj.removeClass("switch-active");
+        value == 'false' ? obj.removeClass("bc-head") : obj.addClass("bc-head");
+
+        
     }
 
     function switchBtn(selector, css, cb) {
@@ -52,17 +67,28 @@ appcan.extend(function(app, exports, module) {
             value = (value == 'false' ? 'true' : 'false');
             obj.attr("data-checked", value);
             value == 'false' ? obj.removeClass( css ? css : "bc-head") : obj.addClass( css ? css : "bc-head");
+            value = value == 'false'?false:true;
             cb(obj, value);
         })
     }
 
     function select(sel, cb) {
+        $("select",$(sel))[0].selectedIndex = -1;
+        var tl =$(sel).find("div[class=text]");
+        var sl =$(sel).find('select');
+        var op =sl.find('option');
+        var index =parseInt(sl.attr('selectedIndex'));
+        if(index != -1){
+            tl.html(sl[0].options[index].text);
+        }
+
         $("select", $(sel)).on("change", function(evt) {
             var ele = $(evt.currentTarget);
             appcan.selectChange(evt.currentTarget);
             cb && cb(ele, ele.val());
         });
     }
+
 
     function touch(className, fun) {
         var ele = window.event.currentTarget || window.event.srcElement;
@@ -101,6 +127,13 @@ appcan.extend(function(app, exports, module) {
                 }
                 $(this).removeClass(ed.endClassName);
             });
+            $ele.on('touchcancel', function() {
+                if (!ed.endClassName) {
+                    return;
+                }
+                $(this).removeClass(ed.endClassName);
+            });
+            
             $ele.on('tap', function() {
                 if (appcan.isFunction(ed.startCallFun)) {
                     ed.startCallFun.apply(this, [].slice.call(arguments));
@@ -114,7 +147,11 @@ appcan.extend(function(app, exports, module) {
                 if (!ed.startClassName) {
                     return;
                 }
+                var that = this;
                 $(this).addClass(ed.startClassName);
+                setTimeout(function(){
+                    $(that).removeClass(ed.endClassName);
+                },300);
             });
             $ele.on('mouseup', function() {
                 if (!ed.endClassName) {
@@ -458,7 +495,7 @@ appcan.extend(function(app, exports, module) {
             }
             return res || "";
         });
-    }
+    };
 
     /*
      *
@@ -480,7 +517,7 @@ appcan.extend(function(app, exports, module) {
             index++;
         }
         return r;
-    }
+    };
     /*
      *
      * 返回指定的数据
@@ -489,11 +526,62 @@ appcan.extend(function(app, exports, module) {
     function oldTempRender(t, dd, cb) {
         return oldTemp(t, dd, -1, -1, cb);
     }
+    
+    /*
+        
+        按顺序执行
+        
+    */
+    function series(tasks,callback){
+        if(appcan.isFunction(tasks)){
+            callback = tasks;
+            tasks = [];
+        }
+        callback = appcan.isFunction(callback) ? callback : function() {
+        };
+        var errData = 0;
+        var resData = null;
+        var taskIdx = 0;
+        
+        function nextTask(){
+            if(taskIdx >= tasks.length){
+                callback(0);
+                return;
+            }
+            var tsk = tasks[taskIdx];
+            if(tsk && appcan.isFunction(tsk)){
+                try{
+                    if(tsk(function(err,data){
+                        if(err === 0){
+                            taskIdx++;
+                            nextTask();
+                        }else{
+                            //结束任务
+                            callback(err,data);
+                            return;
+                        }
+                    }) === false){
+                        //结束任务
+                        callback(0);
+                        return;
+                    }
+                }catch(e){
+                    callback(e);
+                }
+            }
+        }
+        
+        nextTask();
+        
+    }
+    
 
     //for emulator
     $(document).ready(function() {
-        initFontsize();
+
     });
+
+    initFontsize();
 
     module.exports = {
         elementFor : elementFor,
@@ -524,13 +612,18 @@ appcan.extend(function(app, exports, module) {
         fold : fold,
         button : button,
         select : select,
-        switch : switchBtn
+        "switch": switchBtn,
+        switchBtn : switchBtn,
+        series:series,
+        updateSwitch:updateSwitch
     };
 });
 
 appcan.ready(function(){
     var ios7style=uexWidgetOne.iOS7Style;
-    if (ios7style == '1') {
+    var isFullScreen = uexWidgetOne.isFullScreen;
+    if (ios7style == '1' && isFullScreen != '1') {
       $("body").addClass("uh_ios7");
     }
 });
+

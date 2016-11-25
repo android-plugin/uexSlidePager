@@ -2,6 +2,9 @@ appcan.define("treeview", function($, exports, module) {
 
     var listTmp ='<li class="treeview">\
         <div class="treeview-header ubb bc-border bc-text ub uinn ub-ac">\
+        <%if (option.hasIcon) {%>\
+        <div class="lis-icon-s ub-img" style="background-image:url(<%=icon%>)"></div>\
+        <%}%>\
         <div class="ub-f1 ut-s"><%=header%></div>\
         <%if(option.hasAngle){%>\
         <div class="fa fa-angle-down ulev2 utra sc-text"></div>\
@@ -14,7 +17,7 @@ appcan.define("treeview", function($, exports, module) {
         
     var listRender = appcan.view.template(listTmp);
 
-    var isEmulator = !('ontouchstart' in window);
+    var isEmulator = (window.navigator.platform == "Win32");
 
     var touchEvent = {
         'start' : isEmulator ? 'mousedown' : 'touchstart',
@@ -39,7 +42,7 @@ appcan.define("treeview", function($, exports, module) {
         }, option, true);
         this.ele = $(this.option.selector);
         if (this.option.data) {
-            this.set(data);
+            this.set(this.option.data);
         }
         this.open(this.option.defaultOpen);
     };
@@ -99,6 +102,7 @@ appcan.define("treeview", function($, exports, module) {
                 var content = self.getContent(data[i], settings);
                 var ele = $(html({
                     header : data[i].header,
+                    icon:data[i].icon,
                     content : '',
                     option : self.option
                 }));
@@ -139,7 +143,6 @@ appcan.define("treeview", function($, exports, module) {
             self.ele.html(container);
             return self;
         },
-
         add : function(data, dir, settings) {
             var self = this;
             var container = self.buildTreeview(data, settings);
@@ -168,9 +171,9 @@ appcan.define("treeview", function($, exports, module) {
 
             var contentEle = obj.find('.treeview-content');
             if(treeviewHeader.length){
-            var data = treeviewHeader[0]["tv_data"];
-            if(data.content)
-                obj.siblings().find('.treeview-header').removeClass(this.option.touchClass);
+                var data = treeviewHeader[0]["tv_data"];
+                if(data.content)
+                    obj.siblings().find('.treeview-header').removeClass(this.option.touchClass);
             }
             if (this.option.isCloseOther) {
                 obj.siblings().find('.treeview-content').addClass('uhide');
@@ -185,7 +188,6 @@ appcan.define("treeview", function($, exports, module) {
                 treeviewHeader.removeClass(this.option.touchClass);
                 obj.find('.fa-angle-down').removeClass('fa-rotate-180');
             }
-
             if (this.option.autoScrollTop) {
                 var offset = treeviewHeader.offset();
                 var top = offset && offset.top || 0;
@@ -224,6 +226,54 @@ appcan.define("treeview", function($, exports, module) {
                 return;
             }
             this.showItem(this.ele.find('.treeview').eq(index).find('.treeview-header'));
+        },
+        hideItem:function(header){
+            var treeviewHeader = header;
+            var obj = treeviewHeader.parent();
+            
+            var contentEle = obj.find('.treeview-content');
+            if(treeviewHeader.length){
+                var data = treeviewHeader[0]["tv_data"];
+                if(data.content){
+                    obj.siblings().find('.treeview-header').removeClass(this.option.touchClass);
+                }
+            }
+            /*
+            if (this.option.isCloseOther) {
+                obj.siblings().find('.treeview-content').addClass('uhide');
+                obj.siblings().find('.fa-angle-down').removeClass('fa-rotate-180');
+            }
+            */
+            if (contentEle.hasClass('uhide')) {
+                //contentEle.removeClass('uhide');
+                //treeviewHeader.addClass(this.option.touchClass);
+                //obj.find('.fa-angle-down').addClass('fa-rotate-180');
+            } 
+            else {
+                contentEle.addClass('uhide');
+                treeviewHeader.removeClass(this.option.touchClass);
+                obj.find('.fa-angle-down').removeClass('fa-rotate-180');
+            }
+            if (this.option.autoScrollTop) {
+                var offset = treeviewHeader.offset();
+                var top = offset && offset.top || 0;
+                $(window).scrollTop(top);
+            }
+            
+        },
+        //收起指定所以位置的选项
+        hide:function(index){
+            index = parseInt(index, 10);
+            if (isNaN(index) || index < 0) {
+                return;
+            }
+            this.hideItem(this.ele.find('.treeview').eq(index).find('.treeview-header'));
+        },
+        //收起所有的选项
+        hideAll:function(){
+            for(var i=0,len=this.ele.find('.treeview').length;i<len;i++){
+                this.hide(i);
+            }
         }
     };
 

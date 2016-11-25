@@ -1,5 +1,5 @@
 appcan.define("listview", function($, exports, module) {
-var model_thinLine =  '<li class="ubb ub bc-border bc-text ub-ac lis" <%if(group){%>data-group="<%=group%>"<%}%> data-index="<%=index%>">\
+var model_thinLine =  '<li class="ubb ub bc-border bc-text ub-ac lis" <%if(group){%>data-group="<%=group%>"<%}%> <%if(data.id){%>id="<%=data.id%>"<%}%> data-index="<%=index%>">\
 <%if(option.hasCheckbox && option.align=="left"){%>\
 <div class="checkbox umar-r"><input type="checkbox" class="uabs ub-con" ></div>\
 <%}%>\
@@ -7,22 +7,22 @@ var model_thinLine =  '<li class="ubb ub bc-border bc-text ub-ac lis" <%if(group
 <div class="radiobox umar-r" name=""><input type="radio" class="uabs ub-con" name="lv_radio_<%=option.id%>"></div>\
 <%}%>\
 <%if(option.hasIcon && data.icon){%>\
-<div class="<%if(option.hasSmallIcon){%>lis-icon-ss<%}else{%>lis-icon-s<%}%> ub-img" style="background-image:url(<%=data.icon%>)"></div>\
+<div class="lazy <%if(option.hasSmallIcon){%>lis-icon-ss<%}else{%>lis-icon-s<%}%> ub-img" data-original="<%=data.icon%>" style="background-image:url(<%=data.icon%>)"></div>\
 <%}%>\
 <div class="lv_title ub-f1 marg-l ub ub-ver ut-m line<%=option.multiLine%>">\
 <%=data.title%>\
 </div>\
 <%if(option.hasSubTitle){%>\
-<div class="tx-r sc-text ulev-1 umar-r">\
+<div class="tx-r sc-text ulev-1 umar-r lv_subTitle">\
 <%=data.subTitle%>\
 </div>\
 <%}%>\
-<%if(option.hasControl && data.switch){%>\
-<div class="switch uba bc-border <%if(data.switch.mini){%>switch-mini<%}%>" data-checked="<%=data.switch.value%>">\
+<%if(option.hasControl && data.switchBtn){%>\
+<div class="switch uba bc-border <%if(data.switchBtn.mini){%>switch-mini<%}%>" data-checked="<%=data.switchBtn.value%>">\
 <div class="switch-btn sc-bg-active "></div>\
 </div>\
 <%}%>\
-<%if(option.hasAngle && !(option.hasControl && data.switch)){%>\
+<%if(option.hasAngle && !(option.hasControl && data.switchBtn)){%>\
 <div class="fa fa-angle-right ulev2 sc-text"></div>\
 <%}%>\
 <%if(option.hasCheckbox && option.align=="right"){%>\
@@ -36,7 +36,7 @@ var model_thinLine =  '<li class="ubb ub bc-border bc-text ub-ac lis" <%if(group
 var model_groupLine= '<li id="lv_group_<%=data.groupId%>" class="ubb ub bc-border bc-text sc-bg-active ub-ac lis group" data-index="<%=index%>">\
 <%=data.title%>\
 </li>';
-var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index="<%=index%>">\
+var model_thickLine = '<li <%if(data.id){%>id="<%=data.id%>"<%}%> class="ubb ub bc-border t-bla ub-ac lis"  data-index="<%=index%>">\
 <%if(option.hasCheckbox && option.align=="left"){%>\
 <div class="checkbox umar-r"><input type="checkbox" class="uabs ub-con" ></div>\
 <%}%>\
@@ -46,7 +46,7 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
 <%if(option.hasIcon && data.icon){%>\
 <ul class="ub ub ub-ver">\
 <li class="">\
-<div class="lis-icon ub-img" style="background-image:url(<%=data.icon%>)"></div>\
+<div class="lazy lis-icon ub-img" data-original="<%=data.icon%>" style="background-image:url(<%=data.icon%>)"></div>\
 <div class="ulev-1 bc-text umar-t"><%=data.icontitle%></div>\
 </li>\
 </ul>\
@@ -59,17 +59,17 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
 </ul>\
 <%if(option.hasSubTitle){%>\
 <ul class="ub ub-ver ub-ae umar-r">\
-<%if(data.subTitle){%><li class="bc-text"><%=data.subTitle%></li><%}%>\
+<%if(data.subTitle){%><li class="bc-text lv_subTitle"><%=data.subTitle%></li><%}%>\
 <%if(data.subDescribe){%><li class="ulev-1 sc-text1 uinn3"><%=data.subDescribe%></li><%}%>\
 <%if(data.subNote){%><li class="ulev-2 sc-text1 uinn3"><%=data.subNote%></li><%}%>\
 </ul>\
 <%}%>\
-<%if(option.hasControl && data.switch){%>\
-<div class="switch uba bc-border <%if(data.switch.mini){%>switch-mini<%}%>" data-checked="<%=data.switch.value%>">\
+<%if(option.hasControl && data.switchBtn){%>\
+<div class="switch uba bc-border <%if(data.switchBtn.mini){%>switch-mini<%}%>" data-checked="<%=data.switchBtn.value%>">\
 <div class="switch-btn sc-bg-active "></div>\
 </div>\
 <%}%>\
-<%if(option.hasAngle && !(option.hasControl && data.switch)){%>\
+<%if(option.hasAngle && !(option.hasControl && data.switchBtn)){%>\
 <li class="fa fa-angle-right ulev2"></li>\
 <%}%>\
 <%if(option.hasCheckbox && option.align=="right"){%>\
@@ -85,6 +85,7 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
     var thickLineTmp = appcan.view.template(model_thickLine);
     var viewid = 1;
     function isWindows() {
+        if(window.navigator.platform == "Win32") return true;
         if (!('ontouchstart' in window))
             return true;
     }
@@ -141,20 +142,24 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
                     self.longTapItem(evt)
                 });
                 if (self.option.hasCheckbox || self.option.hasRadiobox) {
-                    ele.find("input").on('change', function(evt) {
-                        ele[0]["lv_data"].checked = evt.currentTarget.checked;
-                        if (self.option.hasCheckbox)
-                            self.emit("checkbox:change", self, ele, ele[0]["lv_data"]);
-                        if (self.option.hasRadiobox)
-                            self.emit("radio:change", self, ele, ele[0]["lv_data"]);
-                    })
+                    (function(ele){
+                        ele.find("input").on('change', function(evt) {
+                            ele[0]["lv_data"].checked = evt.currentTarget.checked;
+                            if (self.option.hasCheckbox){
+                                self.emit("checkbox:change", self, ele, ele[0]["lv_data"]);
+                            }
+                            if (self.option.hasRadiobox){
+                                self.emit("radio:change", self, ele, ele[0]["lv_data"]);
+                            }
+                        });
+                    })(ele)
                 }
                 container.append(ele);
             }
             var switchBtns = $(".switch", container);
-            appcan.switch(switchBtns, function(obj, value) {
+            appcan.switchBtn(switchBtns, function(obj, value) {
                 var ele = obj.parent();
-                ele[0]["lv_data"].switch.value = value;
+                ele[0]["lv_data"].switchBtn.value = value;
                 self.emit("switch:change", self, ele, ele[0]["lv_data"]);
             })
             return container;
@@ -198,7 +203,6 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
         itemClick : function(evt) {
             var self = this;
             var obj = $(evt.currentTarget);
-            this.emit("click", self, obj, obj[0]["lv_data"], $(evt.target));
             obj.removeClass(this.option.touchClass);
             if (self.option.hasCheckbox) {
                 if($(evt.target).is('input[type=checkbox]')){
@@ -214,12 +218,13 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
                 var radio = obj.find("input");
                 radio[0].checked = true;
             }
+            this.emit("click", self, obj, obj[0]["lv_data"], $(evt.target));
         },
         touchItem : function(evt) {
             if (this.option.hasTouchEffect) {
                 var self = this;
                 var obj = $(evt.currentTarget);
-                if (obj[0]["lv_data"].switch && self.option.hasControl)
+                if (obj[0]["lv_data"].switchBtn && self.option.hasControl)
                     return;
                 obj.addClass(self.option.touchClass);
                 setTimeout(function() {
@@ -237,6 +242,9 @@ var model_thickLine = '<li class="ubb ub bc-border t-bla ub-ac lis"  data-index=
             switch(name) {
             case "title":
                 $(".lv_title", item).html(value);
+                break;
+            case "subTitle":
+                $(".lv_subTitle", item).html(value);
                 break;
             }
         }
